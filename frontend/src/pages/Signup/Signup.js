@@ -1,7 +1,11 @@
 import React from 'react';
 
-const Signup = () => {
-    return <h1>Signup Page!</h1>;
+import SignUpForm from '../../components/SignUpForm/SignUpForm';
+
+const SignUp = () => {
+    return (
+        <SignUpForm />
+    );
 };
 
-export default Signup;
+export default SignUp;
