@@ -8,4 +8,6 @@ app.use(bodyParser.json());
 
 app.use("/api/users", userRoutes);
 
-app.listen(5000);
+app.listen(5000, () => {
+    console.log("Running on port:", 5000)
+});
