@@ -14,8 +14,7 @@ router.post(
             .not()
             .isEmpty(),
         check("password")
-            .not()
-            .isEmpty(),
+            .isLength({ min: 8 })
     ],
     userController.login
 );
@@ -27,8 +26,7 @@ router.post(
             .not()
             .isEmpty(),
         check("password")
-            .not()
-            .isEmpty(),
+            .isLength({ min: 8 })
     ],
     userController.signup);
 
