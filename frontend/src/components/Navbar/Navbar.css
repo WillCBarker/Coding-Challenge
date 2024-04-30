@@ -22,3 +22,16 @@
 .nav a:hover {
     color: rgb(83, 166, 255);
 }
+
+.nav .LogoutButton {
+    background: none;
+    border: none;
+    color: inherit;
+    font-size: 1.5rem;
+    cursor: pointer;
+    text-decoration: none;
+}
+
+.LogoutButton:hover {
+    color: rgb(83, 166, 255);
+}

@@ -1,10 +1,12 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 
 import { lenRequirement, letterRequirement, numberRequirement, specialCharRequirement } from '../../util/validators.js';
+import { AuthContext } from '../../context/auth-context';
 
 import './SignUpForm.css'
 
 const SignUpForm = () => {
+    const auth = useContext(AuthContext);
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
     const [confirmPassword, setConfirmPassword] = useState("");
@@ -41,7 +43,19 @@ const SignUpForm = () => {
     const handleSubmit = async (event) => {
         event.preventDefault();
         console.log("SUBMITTED");
-        // TBD: Authenticate credentials, ensure username doesn't exist, etc.
+        const response = await fetch("http://localhost:5000/api/users/signup", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            username: username,
+            password: password
+          })
+        })
+        if (response.status === 201) {
+          auth.login();
+        }
     };
   
     return (

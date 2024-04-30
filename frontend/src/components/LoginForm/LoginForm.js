@@ -1,16 +1,28 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import { useNavigate } from "react-router-dom";
-
+import { AuthContext } from '../../context/auth-context';
 import './LoginForm.css';
 
 const LoginForm = () => {
+  const auth = useContext(AuthContext);
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-
-    // TBD: Validate input, authenticate credentials, etc.
+    const response = await fetch("http://localhost:5000/api/users/login", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        username: username,
+        password: password
+      })
+    })
+    if (response.status === 200) {
+      auth.login();
+    }
   };
 
   let navigate = useNavigate(); 
@@ -40,7 +52,7 @@ const LoginForm = () => {
           />
         </div>
         <button type="submit">Login</button>
-        <div class="separator">
+        <div className="separator">
             <hr />
             <p>or</p>
             <hr />
