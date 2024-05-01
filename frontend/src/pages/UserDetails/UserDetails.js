@@ -1,7 +1,9 @@
 import React from 'react';
 
 const UserDetails = () => {
-    return <h1>UserDetails</h1>;
+    const storedData = JSON.parse(localStorage.getItem("userData"));
+
+    return <h1>User: {storedData.userId}</h1>;
 };
 
 export default UserDetails;
