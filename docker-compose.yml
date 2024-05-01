@@ -1,0 +1,18 @@
+version: "3.8" 
+
+services:
+  frontend:
+    build: . 
+    ports:
+      - "3000:3000" 
+    command: ["npm", "start"]  # Start command for frontend
+
+  backend:
+    build: . 
+    ports:
+      - "5000:5000"
+    environment:
+      DB_HOST: host.docker.internal
+      DB_USER: postgres
+      DB_PASSWORD: 3469
+    command: ["node", "app.js"] # Start command for backend
