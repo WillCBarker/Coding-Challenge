@@ -19,6 +19,12 @@ const SignUpForm = () => {
     });
     const hasErrors = Object.values(loginErrors).some((error) => error !== "");
 
+    const handleEmailChange = (event) => {
+      const newEmail = event.target.value;
+      setEmail(newEmail);
+      validateLogin(password, confirmPassword, email);
+    }
+
     const handlePasswordChange = (event) => {
       const newPassword = event.target.value;
       setPassword(newPassword);
@@ -69,7 +75,7 @@ const SignUpForm = () => {
                 type="text"
                 placeholder="Email"
                 value={email}
-                onChange={(event) => setEmail(event.target.value)}
+                onChange={handleEmailChange}
               />
             </div>
             <div className="input-box">

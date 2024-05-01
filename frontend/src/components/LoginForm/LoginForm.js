@@ -1,5 +1,5 @@
 import React, { useContext, useState } from 'react';
-import { useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { AuthContext } from '../../context/auth-context';
 import './LoginForm.css';
 
@@ -31,12 +31,6 @@ const LoginForm = () => {
     }
   };
 
-  let navigate = useNavigate(); 
-  const signupRoute = () =>{ 
-    let path = "/signup"; 
-    navigate(path);
-  }
-
   return (
     <div className="container">
       <form onSubmit={handleSubmit}>
@@ -66,7 +60,7 @@ const LoginForm = () => {
             <p>or</p>
             <hr />
         </div>
-        <button onClick={signupRoute}>Sign up</button>
+        <Link to="/signup" className="link-button">Sign up</Link>
       </form>
     </div>
   );
