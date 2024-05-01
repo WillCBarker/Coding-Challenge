@@ -15,12 +15,12 @@ const getUsers = async (req, res) => {
 const getUserDetails = async (req, res) => {
     const validationErrors = validationResult(req);
     if (!validationErrors.isEmpty()) {
-        return res.status(422).json({ message: "Invalid request, username missing." });
+        return res.status(422).json({ message: "Invalid request, email missing." });
     }
 
-    const { username } = req.body;
+    const { email } = req.body;
     try {
-        const userDetails = await userService.getUserByUsername(username);
+        const userDetails = await userService.getUserByEmail(email);
         return res.status(200).json({ userDetails: userDetails });
     } catch(error) {
         console.error(error);
@@ -29,20 +29,15 @@ const getUserDetails = async (req, res) => {
 }
 
 const signup = async (req, res) => {
-    const validationErrors = validationResult(req);
-    if (!validationErrors.isEmpty()) {
-        return res.status(422).json({ message: "Invalid input." });
-    }
-
-    const { username, password } = req.body;
+    const { email, password } = req.body;
 
     try {
-        const existingUser = await userService.getUserByUsername(username);
+        const existingUser = await userService.getUserByEmail(email);
         if (existingUser) {
-            return res.status(401).json({ message: "Could not create user. Username already exists." });
+            return res.status(401).json({ message: "Could not create user. Email already exists." });
         }
 
-        const createdUser = await userService.createUser(username, password);
+        const createdUser = await userService.createUser(email, password);
         let token;
         token = jwt.sign(
             { userId: createdUser.id },
@@ -57,15 +52,10 @@ const signup = async (req, res) => {
 };
 
 const login = async (req, res) => {
-    const validationErrors = validationResult(req);
-    if (!validationErrors.isEmpty()) {
-        return res.status(422).json({ message: "Invalid input." });
-    }
-
-    const { username, password } = req.body;
+    const { email, password } = req.body;
 
     try {
-        const identifiedUser = await userService.getUserByUsername(username);
+        const identifiedUser = await userService.getUserByEmail(email);
         if (!identifiedUser) {
             return res.status(401).json({ message: "Login failed, could not identify user." });
         }

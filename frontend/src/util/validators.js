@@ -16,3 +16,8 @@ export function specialCharRequirement(password) {
     const specialCharRegex = /[^a-zA-Z0-9]/; // At least one special character (not alphanumeric)
     return specialCharRegex.test(password)
 }
+
+export function emailValidator(email) {
+    const emailValidationRegex = /^\S+@\S+\.\S+$/;
+    return emailValidationRegex.test(email)
+}

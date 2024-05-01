@@ -5,7 +5,7 @@ import './LoginForm.css';
 
 const LoginForm = () => {
   const auth = useContext(AuthContext);
-  const [username, setUsername] = useState("");
+  const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
 
@@ -18,15 +18,16 @@ const LoginForm = () => {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        username: username,
+        email: email,
         password: password
       })
     })
+    console.log(response.status);
     if (response.status === 200) {
       const responseData = await response.json();
       auth.login(responseData.userId, responseData.token);
     } else {
-      setErrorMessage("Account not found");
+      setErrorMessage("Invalid login credentials.");
     }
   };
 
@@ -43,9 +44,9 @@ const LoginForm = () => {
         <div className="input-box">
           <input
             type="text"
-            placeholder="Username"
-            value={username}
-            onChange={(event) => setUsername(event.target.value)}
+            placeholder="Email"
+            value={email}
+            onChange={(event) => setEmail(event.target.value)}
           />
         </div>
         <div className="input-box">

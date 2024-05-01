@@ -2,16 +2,16 @@ const db = require("../db");
 
 const User = {};
 
-User.create = (username, password) => {
-    return db.query("INSERT INTO users (username, password) VALUES ($1, $2) RETURNING *", [username, password]);
+User.create = (email, password) => {
+    return db.query("INSERT INTO users (email, password) VALUES ($1, $2) RETURNING *", [email, password]);
 }
 
 User.findAll = () => {
     return db.query("SELECT * FROM users");
 }
 
-User.find = (username) => {
-    return db.query("SELECT * FROM users WHERE username = $1", [username]);
+User.find = (email) => {
+    return db.query("SELECT * FROM users WHERE email = $1", [email]);
 }
 
 module.exports = User;
