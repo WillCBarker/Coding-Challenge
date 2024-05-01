@@ -26,4 +26,4 @@ This project is a full-stack web application designed for practicing and testing
 3. See create_table_script.sql to create users table in coding_challenge database
 4. Start the application using `docker-compose up`
 5. Visit the front end at `localhost:3000`
-6. Backend is accessibkle at `localhost:5000`
+6. Backend is accessible at `localhost:5000`
