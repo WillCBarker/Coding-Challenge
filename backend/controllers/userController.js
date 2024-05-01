@@ -6,11 +6,27 @@ const jwt = require("jsonwebtoken");
 const getUsers = async (req, res) => {
     try {
         const users = await userService.getAllUsers();
-        res.status(200).json(users);
+        return res.status(200).json(users);
     } catch (error) {
-        res.status(500).json({ message: "Failed to fetch users." });
+        return res.status(500).json({ message: "Failed to fetch users." });
     }
 };
+
+const getUserDetails = async (req, res) => {
+    const validationErrors = validationResult(req);
+    if (!validationErrors.isEmpty()) {
+        return res.status(422).json({ message: "Invalid request, username missing." });
+    }
+
+    const { username } = req.body;
+    try {
+        const userDetails = await userService.getUserByUsername(username);
+        return res.status(200).json({ userDetails: userDetails });
+    } catch(error) {
+        console.error(error);
+        return res.status(404).json({ message: "Could not find user." })
+    }
+}
 
 const signup = async (req, res) => {
     const validationErrors = validationResult(req);
@@ -64,7 +80,7 @@ const login = async (req, res) => {
             "some_secret_token", 
             { expiresIn: "1h" }
             )
-        res.status(200).json({ userId: identifiedUser.id, token: token, message: "Logged in!" });
+        return res.status(200).json({ userId: identifiedUser.id, token: token, message: "Logged in!" });
     } catch (error) {
         console.error(error);
         return res.status(500).json({ message: "Login failed, please try again." });
@@ -73,6 +89,7 @@ const login = async (req, res) => {
 
 module.exports = {
     getUsers,
+    getUserDetails,
     signup,
     login
 };
