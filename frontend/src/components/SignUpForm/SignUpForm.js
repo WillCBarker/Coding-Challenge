@@ -54,7 +54,8 @@ const SignUpForm = () => {
           })
         })
         if (response.status === 201) {
-          auth.login();
+          const responseData = await response.json();
+          auth.login(responseData.userId, responseData.token);
         }
     };
   

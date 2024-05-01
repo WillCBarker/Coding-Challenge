@@ -7,6 +7,8 @@ const LoginForm = () => {
   const auth = useContext(AuthContext);
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const [errorMessage, setErrorMessage] = useState("");
+
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -21,7 +23,10 @@ const LoginForm = () => {
       })
     })
     if (response.status === 200) {
-      auth.login();
+      const responseData = await response.json();
+      auth.login(responseData.userId, responseData.token);
+    } else {
+      setErrorMessage("Account not found");
     }
   };
 
@@ -51,6 +56,9 @@ const LoginForm = () => {
             onChange={(event) => setPassword(event.target.value)}
           />
         </div>
+        {errorMessage && (
+          <p style={{ color: "red" }}>{errorMessage}</p>
+        )}
         <button type="submit">Login</button>
         <div className="separator">
             <hr />

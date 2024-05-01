@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from 'react';
+import React, { useState, useCallback, useEffect, useContext } from 'react';
 import './App.css';
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 
@@ -10,19 +10,30 @@ import Navbar from './components/Navbar/Navbar';
 import { AuthContext } from './context/auth-context';
 
 function App() {
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [token, setToken] = useState(false);
+  const [userId, setUserId] = useState(false);
 
-  const login = useCallback(() => {
-    setIsLoggedIn(true)
+  const login = useCallback((uid, token) => {
+    setToken(token);
+    setUserId(uid);
+    localStorage.setItem("userData", JSON.stringify({userId: uid, token: token}));
   }, []);
 
   const logout = useCallback(() => {
-    setIsLoggedIn(false)
+    setToken(null);
+    setUserId(null);
   }, []);
+
+  useEffect(() => {
+    const storedData = JSON.parse(localStorage.getItem("userData"));
+    if (storedData && storedData.token) {
+      login(storedData.userId, storedData.token);
+    }
+  }, [login]);
 
   let routes;
 
-  if (isLoggedIn) {
+  if (token) {
     routes = (
       <>
         <Route path="/" element={<Home />} /> 
@@ -48,7 +59,15 @@ function App() {
   }
 
   return (
-    <AuthContext.Provider value={{ isLoggedIn: isLoggedIn, login: login, logout: logout }}>
+    <AuthContext.Provider 
+      value={{ 
+        isLoggedIn: !!token,
+        token: token,
+        userId: userId, 
+        login: login, 
+        logout: logout 
+      }}
+    >
       <BrowserRouter>
         <Navbar />
         <div className="content">
