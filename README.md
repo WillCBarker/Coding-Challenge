@@ -1,6 +1,6 @@
 ## Coding Challenge
 
-This project is a full-stack web application designed for practicing and testing coding skills.
+This project is a full-stack web application for a coding challenge.
 
 ### Frontend Technologies
 
